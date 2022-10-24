@@ -16,38 +16,31 @@ for i in range(N):
     print('Frames sent ->',frame)
     c.send(str(frame).encode())
     frame += 1 
-    time.sleep(1)
+    time.sleep(2)
 
 timer = 5
 
 # will start with acknowledgement frame of 1
-while seq < n : 
+while frame < n : 
     t = random.randint(1,7)
     msg = c.recv(1).decode()
     msg = int(msg)
-    
-    if(msg != seq): 
-        # here we try to discard the already sent frames after failed frame
-        continue
+    print("Data received ", msg)
     if(timer > t): 
         # if the timer is greater than random number be consider it as ack
-        print("acknowledgement received for ",seq)
-        if(frame < n):
-            print('Frames sent ->',str(frame))
-            # we will send next frame
-            c.send(str(frame).encode())
-            frame += 1 
+        print("acknowledgement received")
+        print('Frames sent ->',str(frame))
+        # we will send next frame
+        c.send(str(frame).encode())
         seq += 1
+        frame += 1 
         time.sleep(2)
     else:
         # if timer is less than the random number we consider as not received ack 
         print('acknowledgement not received')
-        frame = seq
         # we will again send the frames from window starting i.e seq
-        for i in range(N):
-            print('Frames sent ->',frame)
-            c.send(str(frame).encode())
-            frame += 1
-            time.sleep(1)
+        print('Frames sent ->',seq)
+        c.send(str(seq).encode())
+        time.sleep(2)
     
 
