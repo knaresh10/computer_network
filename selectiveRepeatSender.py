@@ -20,6 +20,7 @@ timer = 5
 while start < n :
     msg = c.recv(1).decode()
     msg = int(msg)
+    print("received ", msg)
     t = random.randint(1, 7)
     if(timer > t):
         print("ack -->",start)
